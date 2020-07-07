@@ -58,7 +58,8 @@ function getReplacer(opts) {
 
 
 module.exports = function(opts) {
-    var rg = new RegExp("\u001b\\[[0-9;]*m", 'g')
+  var rg = new RegExp("\u001b\\[[0-9;]*m", 'g')
+  var newline = new RegExp('\n', 'g')
 
     opts = opts || {}
     opts.style = opts.style === 'class' ? 'class' : 'inline'
@@ -77,7 +78,7 @@ module.exports = function(opts) {
     }
 
     function onChunk(buf, _, next) {
-	this.push(buf.toString().replace(rg, replacer))
+      this.push(buf.toString().replace(rg, replacer).replace(newline, '<br/>'))
 	next()
     }
 
